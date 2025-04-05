@@ -2,13 +2,13 @@ import requests
 from twitchio.ext import commands
 
 # إعدادات تويتش
-BOT_NICK = 'sodv_'
-TOKEN = 'oauth:8kil7z8f48d8kyw6njest8ja7s079s'
+BOT_NICK = 'not_bk0nlyrica'
+TOKEN = 'oauth:n7v7rwxdzle2b9191j72wt3sql6l23'
 PREFIX = '!'
 CHANNEL = 'sodv_'
 
 # إعدادات HuggingFace
-HUGGINGFACE_TOKEN = "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"
+HUGGINGFACE_TOKEN = "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"
 API_URL = "https://api-inference.huggingface.co/models/HuggingFaceH4/zephyr-7b-alpha"
 
 headers = {
@@ -19,7 +19,7 @@ def ask_gpt_like_bot(message_text):
     payload = {
         "inputs": f"<|user|> {message_text} <|assistant|>",
         "parameters": {
-            "max_new_tokens": 150,    # تقييد عدد الكلمات المولدة
+            "max_new_tokens": 80,    # تقييد عدد الكلمات المولدة ليتناسب مع 500 حرف
             "temperature": 0.7,
             "top_p": 0.95,
             "repetition_penalty": 1.1
@@ -30,8 +30,8 @@ def ask_gpt_like_bot(message_text):
     if response.status_code == 200:
         try:
             output = response.json()[0]['generated_text']
-            # تحديد رد أكثر ترتيبًا وأقل من 500 كلمة
-            return output.split("<|assistant|>")[-1].strip()[:500]  # تقييد الردود بـ 500 كلمة
+            # تحديد رد مختصر لا يتعدى 500 حرف
+            return output.split("<|assistant|>")[-1].strip()[:500]
         except:
             return "صار في مشكلة مع فهمي للرد 🤕"
     else:
