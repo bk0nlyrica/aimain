@@ -8,7 +8,7 @@ PREFIX = '!'
 CHANNEL = 'sodv_'
 
 # إعدادات HuggingFace
-HUGGINGFACE_TOKEN = "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"
+HUGGINGFACE_TOKEN = "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"
 API_URL = "https://api-inference.huggingface.co/models/HuggingFaceH4/zephyr-7b-alpha"
 
 headers = {
@@ -53,13 +53,11 @@ class SmartBot(commands.Bot):
         user_input = message.content.strip()
         print(f"{message.author.name}: {user_input}")
 
-        # لا يرد إلا إذا تم منشنه (@اسم البوت)
-        if BOT_NICK.lower() not in message.content.lower():
-            return
-
-        await message.channel.send("قاعد أفكر... 🤔")
-        reply = ask_gpt_like_bot(user_input)
-        await message.channel.send(f"@{message.author.name} {reply}")
+        # البوت يرد فقط إذا كان الكلام يبدأ بـ "!gpt"
+        if user_input.startswith('!gpt'):
+            await message.channel.send("قاعد أفكر... 🤔")
+            reply = ask_gpt_like_bot(user_input[5:].strip())  # يقطع "!gpt" ويرسل الباقي
+            await message.channel.send(f"@{message.author.name} {reply}")
 
 bot = SmartBot()
 bot.run()
